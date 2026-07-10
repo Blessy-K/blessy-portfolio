@@ -6,13 +6,14 @@ function Certificates() {
   return (
     <main className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
       <Link
-  to="/"
-  className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-600 shadow-sm transition-all duration-300 hover:-translate-x-1 hover:border-blue-200 hover:text-blue-600 hover:shadow-md"
->
-  <ArrowLeft size={18} />
-  Back to Home
-</Link>
-      <h1 className="mt-2 text-5xl font-bold tracking-[-0.04em] text-zinc-950 md:text-6xl">
+        to="/"
+        className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-600 shadow-sm transition-all duration-300 hover:-translate-x-1 hover:border-blue-200 hover:text-blue-600 hover:shadow-md"
+      >
+        <ArrowLeft size={18} />
+        Back to Home
+      </Link>
+
+      <h1 className="mt-8 text-5xl font-bold tracking-[-0.04em] text-zinc-950 md:text-6xl">
         Certifications
       </h1>
 
@@ -23,35 +24,17 @@ function Certificates() {
 
       <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {certificates.map((certificate) => (
-          <a
+          <Link
             key={certificate.slug}
-            href={
-              certificate.credential
-                ? certificate.credential
-                : undefined
-            }
-            target="_blank"
-            rel="noreferrer"
+            to={`/certificates/${certificate.slug}`}
             className="group flex h-full flex-col overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-zinc-300 hover:shadow-2xl"
           >
             <div className="flex h-72 items-center justify-center overflow-hidden bg-zinc-50">
-              {certificate.image ? (
-                <img
-                  src={certificate.image}
-                  alt={certificate.title}
-                  className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-                />
-              ) : (
-                <div className="flex h-full flex-col items-center justify-center px-4 text-center text-zinc-500">
-  <p className="text-lg font-medium">
-    {certificate.title}
-  </p>
-
-  <p className="mt-2 text-sm">
-    PDF Certificate
-  </p>
-</div>
-              )}
+              <img
+                src={certificate.image}
+                alt={certificate.title}
+                className="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+              />
             </div>
 
             <div className="flex flex-1 flex-col p-6">
@@ -80,7 +63,7 @@ function Certificates() {
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </main>
