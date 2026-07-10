@@ -1,50 +1,97 @@
-import { Menu } from "lucide-react";
-import { portfolio } from "../../data/portfolio";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+
+import Container from "../ui/Container";
+
+const links = [
+  { label: "Work", to: "/#work" },
+  { label: "About", to: "/#about" },
+  { label: "Skills", to: "/#skills" },
+  { label: "Certificates", to: "/certificates" },
+  { label: "Contact", to: "/#contact" },
+];
 
 function Navbar() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[#0A0A0A]/70 border-b border-white/5">
-      <div className="max-w-7xl mx-auto h-20 px-8 flex items-center justify-between">
+    <header className="sticky top-4 z-50">
+      <Container>
+        <div className="flex h-[72px] items-center justify-between rounded-2xl border border-zinc-200 bg-white/85 px-7 shadow-md backdrop-blur-2xl">
 
-        <div>
-          <h1 className="text-xl font-bold tracking-tight">
-            {portfolio.name}
-          </h1>
+          {/* Logo */}
+          <Link to="/" className="text-xl font-bold tracking-tight">
+            <span className="text-[#0F172A]">Blessy</span>
+          </Link>
 
-          <p className="text-xs text-zinc-500">
-            Software Engineer
-          </p>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-10">
+            {links.map((link) => (
+              <a
+                key={link.label}
+                href={link.to}
+                className="relative text-sm font-medium text-zinc-600 transition-all duration-300 hover:text-[#0F172A] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-blue-600 after:transition-all hover:after:w-full"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Resume Button */}
+          <a
+  href="/Resume/Blessy_Kondaboina_SoftwareEngineer.pdf"
+  target="_blank"
+  rel="noreferrer"
+  className="hidden md:inline-flex rounded-2xl bg-[#0F172A] px-5 py-2.5 text-sm font-medium !text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#1E293B]"
+>
+  Resume
+</a>
+
+          {/* Mobile Menu */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="rounded-2xl p-2 transition hover:bg-zinc-100 md:hidden"
+            aria-label="Toggle navigation"
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
         </div>
+      </Container>
 
-        <nav className="hidden md:flex items-center gap-10 text-sm">
+      {/* Mobile Navigation */}
+      {open && (
+        <div className="mt-3 md:hidden">
+          <Container>
+            <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-lg">
 
-          <a href="#projects" className="hover:text-blue-400 transition">
-            Projects
-          </a>
+              <nav className="flex flex-col gap-2">
+                {links.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.to}
+                    onClick={() => setOpen(false)}
+                    className="rounded-2xl px-4 py-3 text-zinc-700 transition hover:bg-zinc-100 hover:text-[#0F172A]"
+                  >
+                    {link.label}
+                  </a>
+                ))}
 
-          <a href="#tech" className="hover:text-blue-400 transition">
-            Tech Stack
-          </a>
+                <a
+                  href="/Resume/Blessy_Kondaboina_SoftwareEngineer.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 rounded-2xl bg-[#0F172A] px-4 py-3 text-center text-sm font-medium text-white transition hover:bg-[#1E293B]"
+                >
+                  Resume
+                </a>
+              </nav>
 
-          <a href="#experience" className="hover:text-blue-400 transition">
-            Journey
-          </a>
-
-          <a href="#certificates" className="hover:text-blue-400 transition">
-            Certificates
-          </a>
-
-          <a href="#contact" className="hover:text-blue-400 transition">
-            Contact
-          </a>
-
-        </nav>
-
-        <button className="md:hidden">
-          <Menu size={22}/>
-        </button>
-
-      </div>
+            </div>
+          </Container>
+        </div>
+      )}
     </header>
   );
 }

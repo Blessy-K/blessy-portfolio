@@ -1,48 +1,67 @@
-import { Award, ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 type CertificateCardProps = {
+  slug: string;
   title: string;
-  organization: string;
+  issuer: string;
   year: string;
-  credential?: string;
+  skills: string[];
 };
 
 function CertificateCard({
+  slug,
   title,
-  organization,
+  issuer,
   year,
-  credential,
+  skills,
 }: CertificateCardProps) {
   return (
-    <div className="group rounded-3xl border border-zinc-800 bg-zinc-900/40 p-6 transition-all duration-300 hover:border-blue-500 hover:-translate-y-1">
-      <div className="flex items-start justify-between">
-        <Award className="text-blue-500" size={28} />
-
-        <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs text-zinc-300">
+    <Link
+      to={`/certificates/${slug}`}
+      className="group block border-b border-zinc-200 py-8 transition-colors duration-300 hover:bg-zinc-50"
+    >
+      <div className="grid grid-cols-[90px_1fr_auto] items-start gap-8">
+        {/* Year */}
+        <span className="pt-1 text-sm font-medium text-zinc-400">
           {year}
         </span>
+
+        {/* Content */}
+        <div>
+          <h3 className="text-2xl font-semibold tracking-tight text-zinc-900">
+            {title}
+          </h3>
+
+          <p className="mt-2 text-zinc-600">
+            {issuer}
+          </p>
+
+          <div className="mt-4 overflow-hidden transition-all duration-300 max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100">
+            <p className="mb-2 text-sm font-medium text-zinc-800">
+              What I Learned
+            </p>
+
+            <div className="flex flex-wrap gap-2">
+              {skills.map((skill) => (
+                <span
+                  key={skill}
+                  className="rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-700"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Arrow */}
+        <ArrowUpRight
+          size={22}
+          className="mt-1 text-zinc-400 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-zinc-900"
+        />
       </div>
-
-      <h3 className="mt-6 text-xl font-semibold">
-        {title}
-      </h3>
-
-      <p className="mt-2 text-zinc-400">
-        {organization}
-      </p>
-
-      {credential && (
-        <a
-          href={credential}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-6 inline-flex items-center gap-2 text-blue-400 hover:text-blue-300"
-        >
-          View Credential
-          <ExternalLink size={16} />
-        </a>
-      )}
-    </div>
+    </Link>
   );
 }
 
